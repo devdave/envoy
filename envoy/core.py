@@ -11,6 +11,7 @@ import os
 import shlex
 import subprocess
 import threading
+from packages.slist import SList
 
 
 __version__ = '0.0.2'
@@ -122,6 +123,9 @@ class Response(object):
         self.status_code = None
         self.history = []
 
+    def sl(self):
+        """Return SList"""
+        return SList(self.std_out.split("\n"))
 
     def __repr__(self):
         if len(self.command):

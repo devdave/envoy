@@ -122,10 +122,22 @@ class Response(object):
         self.std_out = None
         self.status_code = None
         self.history = []
+        self._sl = None
 
+
+
+    @property
     def sl(self):
         """Return SList"""
-        return SList(self.std_out.split("\n"))
+        if self._sl is None:
+            self._sl = SList(self.std_out.split("\n"))
+        return self._sl
+
+    def __getslice__(self, start, end):
+        return self.sl.fieldslice(start, end)
+
+    def __getitem__(self, index):
+        return self.sl.fields(index)
 
     def __repr__(self):
         if len(self.command):

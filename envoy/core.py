@@ -14,7 +14,7 @@ import threading
 from packages.slist import SList
 
 
-__version__ = '0.0.2'
+__version__ = '0.0.21'
 __license__ = 'MIT'
 __author__ = 'Kenneth Reitz'
 
@@ -28,7 +28,7 @@ class Command(object):
         self.returncode = None
         self.data = None
 
-    def run(self, data, timeout):
+    def run(self, data, timeout, cwd = None):
         self.data = data
         def target():
 
@@ -40,6 +40,7 @@ class Command(object):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 bufsize=0,
+		cwd=cwd
             )
 
             self.out, self.err = self.process.communicate(self.data)
@@ -166,7 +167,7 @@ def expand_args(command):
     return command
 
 
-def run(command, data=None, timeout=None):
+def run(command, data=None, timeout=None, cwd = None):
     """Executes a given commmand and returns Response.
 
     Blocks until process is complete, or timeout is reached.
@@ -182,7 +183,7 @@ def run(command, data=None, timeout=None):
             data = history[-1].std_out[0:10*1024]
 
         cmd = Command(c)
-        out, err = cmd.run(data, timeout)
+        out, err = cmd.run(data, timeout, cwd = cwd)
 
         r = Response(process=cmd)
 

@@ -5,8 +5,7 @@ import re
 #-----------------------------------------------------------------------------
 #  Copyright (C) 2008-2009  The IPython Development Team
 #
-#  Distributed under the terms of the BSD License.  The full license is in
-#  the file COPYING, distributed as part of this software.
+#  Distributed under the terms of the BSD License.
 #-----------------------------------------------------------------------------
 
 class SList(list):
@@ -88,6 +87,22 @@ class SList(list):
             return SList([el for el in self if pred(match_target(el))])
         else:
             return SList([el for el in self if not pred(match_target(el))])
+
+    def fieldslice(self, start, end):
+        """ Similar to fields method but focused on grabbing a span
+        """
+        res = SList()
+        for el in [f.split() for f in self]:
+            slicepart = []
+            try:
+                slicepart = el[start:end]
+            except IndexError:
+                pass
+            if slicepart:
+                res.append(" ".join(slicepart))
+
+        return res
+
 
     def fields(self, *fields):
         """ Collect whitespace-separated fields from string list

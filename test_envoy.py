@@ -21,8 +21,8 @@ class SimpleTest(unittest.TestCase):
         self.assertEqual(r.status_code, 0)
 
     def test_slist(self):
-        sl = envoy.run('ls -lF').sl()
-        for actual in sl.fields(8):
+        sl = envoy.run('ls -lF').sl
+        for actual in sl.fields(-1):
             if actual[-1] == "*":
                 actual = actual[:-1]
 
@@ -30,6 +30,22 @@ class SimpleTest(unittest.TestCase):
 
             if actual[-1] == "/":
                 self.assertTrue( isdir(actual ), "Expected field 8, value [%s] to equal an existing directory" % actual )
+
+    def test_slist_index(self):
+        filenames = envoy.run('ls -lF')[-1]
+        for actual in filenames:
+            if actual[-1] == "*":
+                actual = actual[:-1]
+
+            self.assertTrue( exists(actual), "Expected field 8, value [%s] to equal an existing file" % actual)
+
+            if actual[-1] == "/":
+                self.assertTrue( isdir(actual ), "Expected field 8, value [%s] to equal an existing directory" % actual )
+
+    def test_slist_slice(self):
+        #This is somewhat problematic in testing
+        #response = envoy.run('ls -lF')
+        #for actual in response[5:8]:
 
 
 

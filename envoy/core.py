@@ -123,6 +123,7 @@ class Response(object):
         self.status_code = None
         self.history = []
 
+    @property
     def sl(self):
         """Return SList"""
         return SList(self.std_out.split("\n"))

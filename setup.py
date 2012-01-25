@@ -26,7 +26,7 @@ setup(
     author='Kenneth Reitz',
     author_email='me@kennethreitz.com',
     url='https://github.com/kennethreitz/envoy',
-    packages= ['envoy'],
+    packages= ['envoy','envoy.packages'],
     install_requires=required,
     license='MIT',
     classifiers=(
